@@ -11,6 +11,30 @@
 |
 */
 
+
+Route::get('/session', function (\Illuminate\Http\Request $request){
+
+    // difference b2in flash and session
+    // flash a data just 1 bar er jonno thake. Page load hole data gayeb.
+    // and session ta data gula theke jai..
+
+    // rule 2
+    $request->session()->put('name', 'Hasan');
+
+    return $request->session()->get('name', 'default value');
+
+    // rule 1
+    //session(['name' => 'Hasan']);
+    //session()->forget('name');
+
+    //return session('name','default value');
+
+});
+
+//Route::get('/', function (){
+//   return view('welcome');
+//});
+
 Route::get('/', 'ServiceContainerController@show');
 Route::get('/interface', 'ServiceContainerController@intface');
 
@@ -46,6 +70,6 @@ Route::resource('projects', 'ProjectsController');
 Route::post('/projects/{project}/tasks', 'ProjectTasksController@store');
 Route::patch('/tasks/{task}', 'ProjectTasksController@update');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');

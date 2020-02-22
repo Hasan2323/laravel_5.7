@@ -2,6 +2,14 @@
 
 @section('content')
 
+    <div class="navbar">
+        @if(session('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
+    </div>
+
     <h1 class="title">{{ $project->title }}</h1>
 
     <div class="content">{{ $project->description }}</div>

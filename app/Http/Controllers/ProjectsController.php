@@ -12,7 +12,7 @@ class ProjectsController extends Controller
 {
     function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'verified']);
 
         // two more options
         //  $this->middleware('auth')->only('create', 'index'); or $this->middleware('auth')->only(['create', 'index']);
@@ -83,6 +83,8 @@ class ProjectsController extends Controller
         // this event() function is used to make an announcement throughout your entire system.
         // Now anywhere you can LISTEN for that event, hook in and respond any kind of side effect that you need.
 
+        session()->flash('message', 'Project has been created');
+
         return redirect('/projects');
     }
 
@@ -147,7 +149,7 @@ class ProjectsController extends Controller
 //
 //        $project->save();
 
-        return redirect('/projects/'.$project->id);
+        return redirect('/projects/'.$project->id)->with('message', 'Project has been updated');
     }
 
     public function destroy(Project $project)

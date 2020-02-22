@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -63,5 +63,15 @@ class User extends Authenticatable
     public function projects()
     {
         return $this->hasMany(Project::class, 'owner_id'); // in this method, 2nd parameter is foreignKey
+    }
+
+    public function isVerified()
+    {
+        return (bool) $this->email_verified_at;
+    }
+
+    public function isNotVerified()
+    {
+        return ! $this->isVerified();
     }
 }
